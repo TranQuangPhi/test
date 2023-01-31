@@ -56,7 +56,6 @@ jobs:
                                    {
                                       "buttons": [
                                           {
-                                              "textButton": {
                                                   "text": "Open Pull Request",
                                                   "onClick": {
                                                       "openLink": {
@@ -64,7 +63,6 @@ jobs:
                                                       }
                                                   },
                                                   "color": {"red": 1, "green": 0,"blue": 0,"alpha": 0.5}
-                                              }
                                           }
                                       ]
                                   }
