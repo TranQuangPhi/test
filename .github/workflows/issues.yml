@@ -1,32 +1,29 @@
-name: Issue Creation Tracker
-on:
-  issues:
-    types: [opened]
-    
+name: pull-request
+on: [pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Git Issue Details
-      run: |
-          echo "Issue creator: ${{ github.event.issue.user.login }}"
-          echo "Issue title: ${{ github.event.issue.title }}"
-          echo "Issue number: ${{ github.event.issue.number }}"
-          echo "Issue url: ${{ github.event.issue.html_url }}"
-          echo "Issue body: ${{ github.event.issue.body }}"
-          echo "Assigned labels: " ${{ join(github.event.issue.labels.*.name) }}
-          echo "Assignees: " ${{ join(github.event.issue.assignees.*.login) }}
-    - name: Google Chat Notification
-      run: |
+      - name: Git Pull Request Details
+        run: |
+          echo "Pull Request Creator: ${{ github.event.pull_request.user.login }}"
+          echo "Pull Request title: ${{ github.event.pull_request.title }}"
+          echo "Pull Request number: ${{ github.event.pull_request.number }}"
+          echo "Pull Request url: ${{ github.event.pull_request.html_url }}"
+          echo "Pull Request body: ${{ github.event.pull_request.body }}"
+          echo "Assigned labels: " ${{ join(github.event.pull_request.labels.*.name) }}
+          echo "Assignees: " ${{ join(github.event.pull_request.assignees.*.login) }}
+      - name: Google Chat Notification
+        run: |
           curl --location --request POST '${{ secrets.WEBHOOK }}' \
           --header 'Content-Type: application/json' \
           --data-raw '{
               "cards": [
                   {
                       "header": {
-                          "title": "Issue Tracker",
-                          "subtitle": "Issue No: #${{ github.event.issue.number }}"
+                          "title": "Pull Request No: #${{ github.event.pull_request.number }}"
                       },
                       "sections": [
                           {
@@ -34,37 +31,32 @@ jobs:
                                   {
                                      "keyValue": {
                                           "topLabel": "Creator",
-                                          "content": "${{ github.event.issue.user.login }}"
+                                          "content": "${{ github.event.pull_request.user.login }}"
                                       },
                                    },
                                    {
                                      "keyValue": {
                                           "topLabel": "Title",
-                                          "content": "${{ github.event.issue.title }}"
+                                          "content": "${{ github.event.pull_request.title }}"
                                       }
                                    },
                                    {
                                      "keyValue": {
-                                          "topLabel": "Assigned Lables",
-                                          "content": "- ${{ join(github.event.issue.labels.*.name) }}"
-                                      }
-                                   },
-                                   {
-                                     "keyValue": {
-                                          "topLabel": "Assignees",
-                                          "content": "- ${{ join(github.event.issue.assignees.*.login) }}"
+                                          "topLabel": "Description",
+                                          "content": "${{ github.event.pull_request.body }}"
                                       }
                                    },
                                    {
                                       "buttons": [
                                           {
                                               "textButton": {
-                                                  "text": "OPEN ISSUE",
+                                                  "text": "Open Pull Request",
                                                   "onClick": {
                                                       "openLink": {
-                                                          "url": "${{ github.event.issue.html_url }}"
+                                                          "url": "${{ github.event.pull_request.html_url }}"
                                                       }
-                                                  }
+                                                  },
+                                                  "color": {"red": 1, "green": 0,"blue": 0,"alpha": 0.5}
                                               }
                                           }
                                       ]
