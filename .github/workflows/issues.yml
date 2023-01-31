@@ -23,7 +23,8 @@ jobs:
               "cards": [
                   {
                       "header": {
-                          "title": "Pull Request No: #${{ github.event.pull_request.number }}"
+                          "title": "Issue Tracker",
+                          "subtitle": "Issue No: #${{ github.event.pull_request.number }}"
                       },
                       "sections": [
                           {
@@ -42,22 +43,26 @@ jobs:
                                    },
                                    {
                                      "keyValue": {
-                                          "topLabel": "Description",
-                                          "content": "${{ github.event.pull_request.body }}"
+                                          "topLabel": "Assigned Lables",
+                                          "content": "- ${{ join(github.event.pull_request.labels.*.name) }}"
+                                      }
+                                   },
+                                   {
+                                     "keyValue": {
+                                          "topLabel": "Assignees",
+                                          "content": "- ${{ join(github.event.pull_request.assignees.*.login) }}"
                                       }
                                    },
                                    {
                                       "buttons": [
                                           {
-                                              "textButton": {
-                                                  "text": "Open Pull Request",
+                                                  "text": "OPEN pull_request",
+                                                  "backgroundColor": {"red": 1, "green": 0,"blue": 0,"alpha": 0.5},
                                                   "onClick": {
                                                       "openLink": {
                                                           "url": "${{ github.event.pull_request.html_url }}"
                                                       }
-                                                  },
-                                                  "color": {"red": 1, "green": 0,"blue": 0,"alpha": 0.5}
-                                              }
+                                                  }
                                           }
                                       ]
                                   }
