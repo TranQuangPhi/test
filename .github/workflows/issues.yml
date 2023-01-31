@@ -41,12 +41,6 @@ jobs:
                                           "content": "${{ github.event.pull_request.title }}"
                                       }
                                    },
-                                  {
-                                     "keyValue": {
-                                          "topLabel": "Description",
-                                          "content": "${{ github.event.pull_request.body }}"
-                                      }
-                                   },
                                    {
                                      "keyValue": {
                                           "topLabel": "Assigned Lables",
