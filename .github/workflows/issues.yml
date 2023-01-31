@@ -63,7 +63,7 @@ jobs:
                                                           "url": "${{ github.event.pull_request.html_url }}"
                                                       }
                                                   },
-                                                  "color": {"red": 1, "green": 0,"blue": 0,"alpha": 0.5}
+                                                  "backgroundColor": {"red": 1, "green": 0,"blue": 0,"alpha": 0.5}
                                               }
                                           }
                                       ]
