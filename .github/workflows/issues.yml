@@ -24,7 +24,7 @@ jobs:
                   {
                       "header": {
                           "title": "Issue Tracker",
-                          "subtitle": "Issue No: #${{ github.event.issue.number }}"
+                          "subtitle": "Issue No: #${{ github.event.pull_request.number }}"
                       },
                       "sections": [
                           {
@@ -32,35 +32,35 @@ jobs:
                                   {
                                      "keyValue": {
                                           "topLabel": "Creator",
-                                          "content": "${{ github.event.issue.user.login }}"
+                                          "content": "${{ github.event.pull_request.user.login }}"
                                       },
                                    },
                                    {
                                      "keyValue": {
                                           "topLabel": "Title",
-                                          "content": "${{ github.event.issue.title }}"
+                                          "content": "${{ github.event.pull_request.title }}"
                                       }
                                    },
                                    {
                                      "keyValue": {
                                           "topLabel": "Assigned Lables",
-                                          "content": "- ${{ join(github.event.issue.labels.*.name) }}"
+                                          "content": "- ${{ join(github.event.pull_request.labels.*.name) }}"
                                       }
                                    },
                                    {
                                      "keyValue": {
                                           "topLabel": "Assignees",
-                                          "content": "- ${{ join(github.event.issue.assignees.*.login) }}"
+                                          "content": "- ${{ join(github.event.pull_request.assignees.*.login) }}"
                                       }
                                    },
                                    {
                                       "buttons": [
                                           {
                                               "textButton": {
-                                                  "text": "OPEN ISSUE",
+                                                  "text": "OPEN pull_request",
                                                   "onClick": {
                                                       "openLink": {
-                                                          "url": "${{ github.event.issue.html_url }}"
+                                                          "url": "${{ github.event.pull_request.html_url }}"
                                                       }
                                                   }
                                               }
