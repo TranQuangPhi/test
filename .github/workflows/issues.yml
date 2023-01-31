@@ -56,7 +56,6 @@ jobs:
                                    {
                                       "buttons": [
                                           {
-                                              "textButton": {
                                                   "text": "OPEN pull_request",
                                                   "backgroundColor": {"red": 1, "green": 0,"blue": 0,"alpha": 0.5},
                                                   "onClick": {
@@ -64,7 +63,6 @@ jobs:
                                                           "url": "${{ github.event.pull_request.html_url }}"
                                                       }
                                                   }
-                                              }
                                           }
                                       ]
                                   }
