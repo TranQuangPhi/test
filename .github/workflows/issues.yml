@@ -23,7 +23,8 @@ jobs:
               "cards": [
                   {
                       "header": {
-                          "title": "Pull Request No: #${{ github.event.pull_request.number }}"
+                          "title": "Issue Tracker",
+                          "subtitle": "Issue No: #${{ github.event.issue.number }}"
                       },
                       "sections": [
                           {
@@ -31,32 +32,37 @@ jobs:
                                   {
                                      "keyValue": {
                                           "topLabel": "Creator",
-                                          "content": "${{ github.event.pull_request.user.login }}"
+                                          "content": "${{ github.event.issue.user.login }}"
                                       },
                                    },
                                    {
                                      "keyValue": {
                                           "topLabel": "Title",
-                                          "content": "${{ github.event.pull_request.title }}"
+                                          "content": "${{ github.event.issue.title }}"
                                       }
                                    },
                                    {
                                      "keyValue": {
-                                          "topLabel": "Description",
-                                          "content": "${{ github.event.pull_request.body }}"
+                                          "topLabel": "Assigned Lables",
+                                          "content": "- ${{ join(github.event.issue.labels.*.name) }}"
+                                      }
+                                   },
+                                   {
+                                     "keyValue": {
+                                          "topLabel": "Assignees",
+                                          "content": "- ${{ join(github.event.issue.assignees.*.login) }}"
                                       }
                                    },
                                    {
                                       "buttons": [
                                           {
                                               "textButton": {
-                                                  "text": "Open Pull Request",
+                                                  "text": "OPEN ISSUE",
                                                   "onClick": {
                                                       "openLink": {
-                                                          "url": "${{ github.event.pull_request.html_url }}"
+                                                          "url": "${{ github.event.issue.html_url }}"
                                                       }
-                                                  },
-                                                  "color": {"red": 1, "green": 0,"blue": 0,"alpha": 0.5}
+                                                  }
                                               }
                                           }
                                       ]
