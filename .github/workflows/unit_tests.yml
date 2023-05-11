@@ -39,7 +39,7 @@ jobs:
             const results = fs.readFileSync('test-results.json', 'utf8');
             const { owner, repo, number } = context.payload.pull_request;
 
-            const { data: comments } = await github.pulls.listComments({
+            const { data: comments } = await github.rest.pulls.listComments({
               owner,
               repo,
               pull_number: number,
