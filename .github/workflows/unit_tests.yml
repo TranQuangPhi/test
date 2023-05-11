@@ -1,6 +1,11 @@
 name: Unit Tests
 
-on: [pull_request]
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
   unit-tests:
@@ -20,3 +25,20 @@ jobs:
 
     - name: Run unit tests
       run: yarn test
+
+    - name: Post test results
+      uses: actions/github-script@v4
+      if: ${{ github.event_name == 'pull_request' }}
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const fs = require('fs');
+          const results = fs.readFileSync('./__tests__', 'utf8');
+          const { owner, repo, number } = context.payload.pull_request;
+
+          await github.issues.createComment({
+            owner,
+            repo,
+            issue_number: number,
+            body: 'Test Results:\n```\n' + results + '\n```'
+          });
