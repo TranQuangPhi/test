@@ -39,23 +39,7 @@ jobs:
             const results = fs.readFileSync('test-results.json', 'utf8');
             const { owner, repo, number } = context.payload.pull_request;
 
-            const { data: comments } = await github.rest.pulls.listComments({
-              owner,
-              repo,
-              pull_number: number,
-            });
-
-            const existingComment = comments.find(comment => comment.body.includes('Test Results:'));
-
-            if (existingComment) {
-              await github.pulls.updateReviewComment({
-                owner,
-                repo,
-                comment_id: existingComment.id,
-                body: 'Test Results:\n```\n' + results + '\n```',
-              });
-            } else {
-              await github.pulls.createReviewComment({
+            await github.rest.issues.createComment({
                 owner,
                 repo,
                 pull_number: number,
