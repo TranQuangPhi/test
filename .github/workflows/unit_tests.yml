@@ -40,25 +40,8 @@ jobs:
             const { owner, repo, number } = context.payload.pull_request;
 
             await github.rest.issues.createComment({
-                owner,
-                repo,
-                pull_number: number,
-                body: 'Test Results:\n```\n' + results + '\n```',
-              });
-            }
-      # - name: Post test results
-      #   uses: actions/github-script@v4
-      #   if: ${{ github.event_name == 'pull_request' }}
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       const fs = require('fs');
-      #       const results = fs.readFileSync('test-results.json', 'utf8');
-      #       const { owner, repo, number } = context.payload.pull_request;
-
-      #       await github.issues.createComment({
-      #         owner,
-      #         repo,
-      #         issue_number: number,
-      #         body: 'Test Results:\n```\n' + results + '\n```'
-      #       });
+              owner,
+              repo,
+              issue_number: number,
+              body: 'Test Results:\n```\n' + results + '\n```'
+            });
