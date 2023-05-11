@@ -1,11 +1,6 @@
 name: Unit Tests
 
-on:
-  push:
-    branches:
-      - [opened, edited, synchronize, reopened]
-  pull_request:
-    types: [opened, edited, synchronize, reopened]
+on: [pull_request]
 
 jobs:
   unit-tests:
