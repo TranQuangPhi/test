@@ -31,7 +31,7 @@ jobs:
 
       - name: Post test results
         uses: actions/github-script@v6
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -39,9 +39,21 @@ jobs:
             const results = fs.readFileSync('test-results.json', 'utf8');
             const { owner, repo, number } = context.payload.pull_request;
 
-            await github.rest.issues.createComment({
+            const prNumber = number || context.payload.pull_request.number;
+
+            const { data: pr } = await github.rest.pulls.get({
               owner,
               repo,
-              issue_number: number,
-              body: 'Test Results:\n```\n' + results + '\n```'
+              pull_number: prNumber,
             });
+
+            if (pr) {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body: 'Test Results:\n```\n' + results + '\n```',
+              });
+            } else {
+              console.log('Pull request not found.');
+            }
