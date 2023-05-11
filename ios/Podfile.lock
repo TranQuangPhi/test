@@ -425,7 +425,9 @@ PODS:
     - React-jsi (= 0.71.4)
     - React-logger (= 0.71.4)
     - React-perflogger (= 0.71.4)
-  - RNGestureHandler (2.9.0):
+  - rn-base-component (0.0.2):
+    - React-Core
+  - RNGestureHandler (2.10.0):
     - React-Core
   - RNReanimated (3.1.0):
     - DoubleConversion
@@ -521,6 +523,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - rn-base-component (from `../node_modules/rn-base-component`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -617,6 +620,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  rn-base-component:
+    :path: "../node_modules/rn-base-component"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -675,7 +680,8 @@ SPEC CHECKSUMS:
   React-RCTVibration: ad17efcfb2fa8f6bfd8ac0cf48d96668b8b28e0b
   React-runtimeexecutor: 8fa50b38df6b992c76537993a2b0553d3b088004
   ReactCommon: b49a4b00ca6d181ff74b17c12b2d59ac4add0bde
-  RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
+  rn-base-component: 0e4d0e35df39f193ccd2a51d1e49856cf7d2818d
+  RNGestureHandler: e145476da655f3dbc48ef2f0a08cf7a34338c02b
   RNReanimated: b1220a0e5168745283ff5d53bfc7d2144b2cee1b
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
