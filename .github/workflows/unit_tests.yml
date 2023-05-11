@@ -12,33 +12,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-    - name: Install dependencies
-      run: yarn install
+      - name: Install dependencies
+        run: yarn install
 
-    - name: Run unit tests
-      run: yarn test
+      - name: Run unit tests and capture results
+        id: unit-test-results
+        run: |
+          yarn test --json > test-results.json
+          echo "::set-output name=results::$(cat test-results.json)"
 
-    - name: Post test results
-      uses: actions/github-script@v4
-      if: ${{ github.event_name == 'pull_request' }}
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const fs = require('fs');
-          const results = fs.readFileSync('./__tests__', 'utf8');
-          const { owner, repo, number } = context.payload.pull_request;
+      - name: Post test results
+        uses: actions/github-script@v4
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const results = fs.readFileSync('test-results.json', 'utf8');
+            const { owner, repo, number } = context.payload.pull_request;
 
-          await github.issues.createComment({
-            owner,
-            repo,
-            issue_number: number,
-            body: 'Test Results:\n```\n' + results + '\n```'
-          });
+            await github.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: 'Test Results:\n```\n' + results + '\n```'
+            });
