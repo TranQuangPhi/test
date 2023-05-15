@@ -1,27 +1,73 @@
 name: Unit Tests
 
 on:
-  push:
-    branches:
-      - [opened, edited, synchronize, reopened]
   pull_request:
-    types: [opened, edited, synchronize, reopened]
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-    - name: Install dependencies
-      run: yarn install
+      - name: Install dependencies
+        run: yarn install
 
-    - name: Run unit tests
-      run: yarn test
+      - name: Run unit tests and capture results
+        id: unit-test-results
+        run: |
+          yarn test --json --outputFile=test-results.json
+          cat test-results.json
+
+      - name: Post test results
+        uses: actions/github-script@v6
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const {repo, owner} = context.repo
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
+            const { number } = context.payload.pull_request;
+
+            const prNumber = number || context.payload.pull_request.number;
+
+            console.log('ccccc results : ', results)
+          
+
+            console.log('ccccc numPassedTestSuites : ', results.numPassedTestSuites)
+            console.log('ccccc numTotalTestSuites : ', results.numTotalTestSuites)
+            console.log('ccccc numPassedTests : ', results.numPassedTests)
+            console.log('ccccc numTotalTests : ', results.numTotalTests)
+            console.log('ccccc snapshot.total : ', results.snapshot.total)
+            console.log('ccccc startTime : ', results.startTime)
+
+            const tests = 
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: prNumber,
+              body: `
+              ## Test Results
+
+              | Tests                | Result | Total     |
+              |----------------------|--------------------------------------|------------------------------------|
+              | Tests                | ${results.numPassedTestSuites} Passed| ${results.numTotalTestSuites} Total|
+              | Tests                | ${results.numPassedTests} Passed     | ${results.numTotalTests} Total     |
+              | Snapshots            | ${results.snapshot.total} total      |                                    |
+              | Time                 | ${results.startTime}                 |                                    |
+                `,
+            });
+
+           
