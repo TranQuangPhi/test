@@ -35,27 +35,37 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+          const {repo, owner} = context.repo
             const fs = require('fs');
             const results = fs.readFileSync('test-results.json', 'utf8');
             const { number } = context.payload.pull_request;
 
-            console.log('ccccc result : ', results)
-
             const prNumber = number || context.payload.pull_request.number;
 
-            const { data: pr } = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: prNumber,
+            const formattedResults = `
+            Test Results:
+            \`\`\`
+            ${results}
+            \`\`\`
+            
+            Summary:
+            ${getSummary(results)}
+            `;
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: prNumber,
+              body: formattedResults,
             });
 
-            if (pr) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                body: 'Test Results:\n```\n' + results + '\n```',
-              });
-            } else {
-              console.log('Pull request not found.');
+            function getSummary(results) {
+              const data = JSON.parse(results);
+              const summary = `
+              Test Suites: ${data.numPassedTestSuites} passed, ${data.numTotalTestSuites} total
+              Tests:       ${data.numPassedTests} passed, ${data.numTotalTests} total
+              Snapshots:   ${data.numTotalSnapshots} total
+              Time:        ${data.startTime}
+              `;
+              return summary.trim();
             }
