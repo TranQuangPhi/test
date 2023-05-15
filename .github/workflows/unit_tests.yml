@@ -42,8 +42,8 @@ jobs:
             const prNumber = number || context.payload.pull_request.number;
 
             console.log('ccccc number : ', number)
-            console.log('ccccc owner : ', owner)
-            console.log('ccccc repo : ', repo)
+            console.log('ccccc owner : ', context.repo.owner)
+            console.log('ccccc repo : ', context.repo.repo)
 
               await github.rest.issues.createComment({
                 owner,
