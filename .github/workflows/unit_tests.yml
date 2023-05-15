@@ -39,15 +39,23 @@ jobs:
             const results = fs.readFileSync('test-results.json', 'utf8');
             const { number } = context.payload.pull_request;
 
+            console.log('ccccc result : ', results)
+
             const prNumber = number || context.payload.pull_request.number;
 
-            console.log('ccccc number : ', number)
-            console.log('ccccc owner : ', context.repo.owner)
-            console.log('ccccc repo : ', context.repo.repo)
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
 
+            if (pr) {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: prNumber,
                 body: 'Test Results:\n```\n' + results + '\n```',
               });
+            } else {
+              console.log('Pull request not found.');
+            }
