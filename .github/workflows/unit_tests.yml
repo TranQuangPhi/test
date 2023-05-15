@@ -43,6 +43,8 @@ jobs:
             const prNumber = number || context.payload.pull_request.number;
 
             console.log('ccccc results : ', results)
+            const data = JSON.stringify(results)
+            console.log('ccccc data : ', data)
           
 
             console.log('ccccc numPassedTestSuites : ', results.numPassedTestSuites)
