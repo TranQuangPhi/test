@@ -37,7 +37,7 @@ jobs:
           script: |
             const fs = require('fs');
             const results = fs.readFileSync('test-results.json', 'utf8');
-            const { owner, repo, number } = context.payload.pull_request;
+            const { number } = context.payload.pull_request;
 
             const prNumber = number || context.payload.pull_request.number;
 
@@ -46,8 +46,8 @@ jobs:
             console.log('ccccc repo : ', context.repo.repo)
 
               await github.rest.issues.createComment({
-                owner,
-                repo,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
                 issue_number: prNumber,
                 body: 'Test Results:\n```\n' + results + '\n```',
               });
