@@ -42,6 +42,7 @@ jobs:
 
             const prNumber = number || context.payload.pull_request.number;
 
+            console.log('ccccc results : ', results)
             console.log('ccccc numPassedTestSuites : ', results.numPassedTestSuites)
             console.log('ccccc numTotalTestSuites : ', results.numTotalTestSuites)
             console.log('ccccc numPassedTests : ', results.numPassedTests)
