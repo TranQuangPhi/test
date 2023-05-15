@@ -35,8 +35,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fs = require('fs');
-            const results = fs.readFileSync('test-results.json', 'utf8');
             const { owner, repo, number } = context.payload.pull_request;
 
             const prNumber = number || context.payload.pull_request.number;
@@ -46,14 +44,3 @@ jobs:
               repo,
               pull_number: prNumber,
             });
-
-            if (pr) {
-              await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number: prNumber,
-                body: 'Test Results:\n```\n' + results + '\n```',
-              });
-            } else {
-              console.log('Pull request not found.');
-            }
