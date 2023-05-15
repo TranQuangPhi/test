@@ -37,19 +37,13 @@ jobs:
           script: |
             const {repo, owner} = context.repo
             const fs = require('fs');
-            const results = fs.readFileSync('test-results.json', 'utf8');
+            const results = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
             const { number } = context.payload.pull_request;
 
             const prNumber = number || context.payload.pull_request.number;
 
             console.log('ccccc results : ', results)
-            
-            try {
-              const data = JSON.parse(results)
-              console.log('ccccc data : ', data)
-            } catch (error) {
-              console.log('Error parsing test results:', error);
-            }
+          
 
             console.log('ccccc numPassedTestSuites : ', results.numPassedTestSuites)
             console.log('ccccc numTotalTestSuites : ', results.numTotalTestSuites)
