@@ -59,14 +59,14 @@ jobs:
               repo,
               issue_number: prNumber,
               body: `
-                  ## Test Results
+              ## Test Results
 
-                  | Tests                | Result | Total     |
-                  |----------------------|--------------------------------------|------------------------------------|
-                  | Tests                | ${results.numPassedTestSuites} Passed| ${results.numTotalTestSuites} Total|
-                  | Tests                | ${results.numPassedTests} Passed     | ${results.numTotalTests} Total     |
-                  | Snapshots            | ${results.snapshot.total} total      |                                    |
-                  | Time                 | ${results.startTime}                 |                                    |
+              | Tests                | Result | Total     |
+              |----------------------|--------------------------------------|------------------------------------|
+              | Tests                | ${results.numPassedTestSuites} Passed| ${results.numTotalTestSuites} Total|
+              | Tests                | ${results.numPassedTests} Passed     | ${results.numTotalTests} Total     |
+              | Snapshots            | ${results.snapshot.total} total      |                                    |
+              | Time                 | ${results.startTime}                 |                                    |
                 `,
             });
 
