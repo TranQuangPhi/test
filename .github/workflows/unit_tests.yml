@@ -64,9 +64,9 @@ jobs:
               | Tests                | Passed | Failed | Total     |
               |----------------------|--------------------------------------|--------------------------------------|------------------------------------|
               | Files                |                                      |                                      | ${results.numTotalTestSuites} files|
-              | TestSuites           | ${results.numPassedTestSuites} Passed| ${results.numFailedTestSuites} Failed|${results.numTotalTestSuites} files |                                |
-              | Tests                | ${results.numPassedTests":} Passed   | ${results.numFailedTests} Failed     |${results.numTotalTests} files      |
-              | Snapshots            |                                      |                                      | ${results.snapshot.total} total    |                              |
+              | TestSuites           | ${results.numPassedTestSuites} Passed| ${results.numFailedTestSuites} Failed|${results.numTotalTestSuites} files |                               
+              | Tests                | ${results.numPassedTests} Passed     | ${results.numFailedTests} Failed     |${results.numTotalTests} files      |
+              | Snapshots            |                                      |                                      | ${results.snapshot.total} total    |
               | Time                 |                                      |                                      | ${results.startTime}               |
                 `,
             });
