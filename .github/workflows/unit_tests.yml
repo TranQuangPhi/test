@@ -37,8 +37,7 @@ jobs:
           script: |
             const {repo, owner} = context.repo
             const fs = require('fs');
-    
-            const results = require('test-results.json');
+            const results = fs.readFileSync('test-results.json', 'utf8');
             const { number } = context.payload.pull_request;
 
             const prNumber = number || context.payload.pull_request.number;
