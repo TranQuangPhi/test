@@ -39,8 +39,6 @@ jobs:
             const fs = require('fs');
             const results = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
             const { number } = context.payload.pull_request;
-            const iconSuccess = <img src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="10"/>
-            const iconFailed = <img src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="10"/>
           
             await github.rest.issues.createComment({
               owner,
@@ -52,7 +50,7 @@ jobs:
               | Tests                | Passed | Failed | Total     |
               |----------------------|--------------------------------------|--------------------------------------|------------------------------------|
               | Files                |                                      |                                      | ${results.numTotalTestSuites}      |
-              | TestSuites           | ${iconSuccess} ${results.numPassedTestSuites}| ${iconFailed} ${results.numFailedTestSuites}| ${results.numTotalTestSuites}      |                               
+              | TestSuites           | <img src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="10"/> ${results.numPassedTestSuites}| <img src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="10"/> ${results.numFailedTestSuites}| ${results.numTotalTestSuites}      |                               
               | Tests                | ${results.numPassedTests} Passed     | ${results.numFailedTests} Failed     | ${results.numTotalTests}           |
               | Snapshots            |                                      |                                      | ${results.snapshot.total}          |
               | Time                 |                                      |                                      | ${results.startTime}               |
