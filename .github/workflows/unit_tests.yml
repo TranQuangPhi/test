@@ -52,6 +52,8 @@ jobs:
             console.log('ccccc snapshot.total : ', results.snapshot.total)
             console.log('ccccc startTime : ', results.startTime)
 
+            const tests = 
+
             await github.rest.issues.createComment({
               owner,
               repo,
@@ -61,10 +63,10 @@ jobs:
 
                   | Tests                | Result | Total     |
                   |----------------------|--------------------------------------|------------------------------------|
-                  | Tests                | $`\textcolor{green}{\text{${results.numPassedTestSuites} Passed}}`$ | $`\textcolor{green}{\text{${results.numTotalTestSuites} Total}}`$     |
-                  | Tests                | $`\textcolor{green}{\text{${results.numPassedTests} Passed}}`$ | $`\textcolor{green}{\text{${results.numTotalTests} Total}}`$     |
+                  | Tests                | ${results.numPassedTestSuites} Passed| ${results.numTotalTestSuites} Total|
+                  | Tests                | ${results.numPassedTests} Passed     | ${results.numTotalTests} Total     |
                   | Snapshots            | ${results.snapshot.total} total      |                                    |
-                  | Time                 | ${results.startTime}                  |                                    |
+                  | Time                 | ${results.startTime}                 |                                    |
                 `,
             });
 
