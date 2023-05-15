@@ -38,9 +38,9 @@ jobs:
             const {repo, owner} = context.repo
             const fs = require('fs');
             const results = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
-            const { number } = context.payload.pull_request;            
-
-            await github.rest.issues.updateComment({
+            const { number } = context.payload.pull_request;
+          
+            await github.rest.issues.createComment({
               owner,
               repo,
               issue_number: number,
@@ -50,8 +50,8 @@ jobs:
               | Tests                | Passed | Failed | Total     |
               |----------------------|--------------------------------------|--------------------------------------|------------------------------------|
               | Files                |                                      |                                      | ${results.numTotalTestSuites}      |
-              | TestSuites           | <span style="color: #28a745">${results.numPassedTestSuites} Passed</span>       | ${results.numFailedTestSuites}       | ${results.numTotalTestSuites}      |                               
-              | Tests                | ${results.numPassedTests}            | ${results.numFailedTests}            | ${results.numTotalTests}           |
+              | TestSuites           | ${results.numPassedTestSuites} Passed| ${results.numFailedTestSuites} Failed| ${results.numTotalTestSuites}      |                               
+              | Tests                | ${results.numPassedTests} Passed     | ${results.numFailedTests} Failed     | ${results.numTotalTests}           |
               | Snapshots            |                                      |                                      | ${results.snapshot.total}          |
               | Time                 |                                      |                                      | ${results.startTime}               |
                 `,
