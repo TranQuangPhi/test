@@ -61,12 +61,13 @@ jobs:
               body: `
               ## Test Results
 
-              | Tests                | Result | Total     |
-              |----------------------|--------------------------------------|------------------------------------|
-              | Tests                | ${results.numPassedTestSuites} Passed| ${results.numTotalTestSuites} Total|
-              | Tests                | ${results.numPassedTests} Passed     | ${results.numTotalTests} Total     |
-              | Snapshots            | ${results.snapshot.total} total      |                                    |
-              | Time                 | ${results.startTime}                 |                                    |
+              | Tests                | Passed | Failed | Total     |
+              |----------------------|--------------------------------------|--------------------------------------|------------------------------------|
+              | Files                |                                      |                                      | ${results.numTotalTestSuites} files|
+              | TestSuites           | ${results.numPassedTestSuites} Passed| ${results.numFailedTestSuites} Failed|${results.numTotalTestSuites} files |                                |
+              | Tests                | ${results.numPassedTests":} Passed   | ${results.numFailedTests} Failed     |${results.numTotalTests} files      |
+              | Snapshots            |                                      |                                      | ${results.snapshot.total} total    |                              |
+              | Time                 |                                      |                                      | ${results.startTime}               |
                 `,
             });
 
