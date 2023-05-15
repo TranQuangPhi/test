@@ -41,6 +41,8 @@ jobs:
             const { number } = context.payload.pull_request;
 
             const prNumber = number || context.payload.pull_request.number;
+            
+            console.log('ccccc result : ', result)
 
             const formattedResults = `
             Test Results:
@@ -60,12 +62,11 @@ jobs:
             });
 
             function getSummary(results) {
-              const data = JSON.parse(results);
               const summary = `
-              Test Suites: ${data.numPassedTestSuites} passed, ${data.numTotalTestSuites} total
-              Tests:       ${data.numPassedTests} passed, ${data.numTotalTests} total
-              Snapshots:   ${data.numTotalSnapshots} total
-              Time:        ${data.startTime}
+              Test Suites: ${results.numPassedTestSuites} passed, ${results.numTotalTestSuites} total
+              Tests:       ${results.numPassedTests} passed, ${results.numTotalTests} total
+              Snapshots:   ${results.numTotalSnapshots} total
+              Time:        ${results.startTime}
               `;
               return summary.trim();
             }
