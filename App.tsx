@@ -49,7 +49,7 @@ function App(): JSX.Element {
   //     textLightColor: '#333333',
   //   },
   // });
-  console.log('ccccc 41');
+  console.log('ccccc 42');
 
   return (
     <View />
