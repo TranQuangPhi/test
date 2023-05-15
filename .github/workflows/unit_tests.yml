@@ -41,4 +41,13 @@ jobs:
 
             const prNumber = number || context.payload.pull_request.number;
 
-              
+            console.log('ccccc number : ', number)
+            console.log('ccccc owner : ', owner)
+            console.log('ccccc repo : ', repo)
+
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body: 'Test Results:\n```\n' + results + '\n```',
+              });
