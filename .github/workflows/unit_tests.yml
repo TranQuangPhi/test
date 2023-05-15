@@ -26,7 +26,8 @@ jobs:
       - name: Run unit tests and capture results
         id: unit-test-results
         run: |
-          yarn test --json > test-results.json
+          yarn test --json --outputFile=test-results.json
+          cat test-results.json
 
       - name: Post test results
         uses: actions/github-script@v6
