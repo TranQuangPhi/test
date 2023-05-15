@@ -1,12 +1,16 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 // import 'react-native-gesture-handler';
 // import Index from './src/Circular';
 // import Slider from './src/components/Slider/Slider';
 // import RNConfig from 'react-native-config';
 // import {RnBaseButton} from 'rn-base-component';
 
-function App(): JSX.Element {
+interface Props {
+  isShow?: boolean;
+}
+
+function App({isShow}: Props): any {
   // const [value, setValue] = useState<number>(20);
   // const [value1, setValue1] = useState<number>(5);
   // const [value2, setValue2] = useState<number>(0);
@@ -49,9 +53,10 @@ function App(): JSX.Element {
   //     textLightColor: '#333333',
   //   },
   // });
+  console.log('');
 
   return (
-    <View />
+    <View>{isShow && <Text testID="label">Label</Text>}</View>
     // <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
     //   <Text>{RNConfig.APP_ENV}</Text>
     // </View>
