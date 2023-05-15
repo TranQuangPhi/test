@@ -51,7 +51,7 @@ jobs:
               |----------------------|--------------------------------------|--------------------------------------|------------------------------------|
               | Files                |                                      |                                      | ${results.numTotalTestSuites}      |
               | TestSuites           | <img src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="10"/> ${results.numPassedTestSuites}| <img src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="10"/> ${results.numFailedTestSuites}| ${results.numTotalTestSuites}      |                               
-              | Tests                | ${results.numPassedTests} Passed     | ${results.numFailedTests} Failed     | ${results.numTotalTests}           |
+              | Tests                | <img src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="10"/> ${results.numPassedTests}| <img src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="10"/> ${results.numFailedTests} | ${results.numTotalTests}           |
               | Snapshots            |                                      |                                      | ${results.snapshot.total}          |
               | Time                 |                                      |                                      | ${results.startTime}               |
                 `,
