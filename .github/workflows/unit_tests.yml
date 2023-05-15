@@ -57,14 +57,14 @@ jobs:
               repo,
               issue_number: prNumber,
               body: `
-                  | Test Suites:      | ${results.numPassedTestSuites} passed | ${results.numTotalTestSuites} total     |
-                  | ----------------- | -------------------- | ------- | ---------------------------------------------- |
-                  | Tests:            | ${results.numPassedTests} passed | {results.numTotalTests} total                |
-                  | ----------------- | -------------------- | ------- | ---------------------------------------------- |
-                  | Snapshots:        | ${results.snapshot.total} total                                                 |
-                  | ----------------- | -------------------- | ------- | ---------------------------------------------- |
-                  | Time:              | ${results.startTime}                                                           |
-                  | ----------------- | -------------------- | ------- | ---------------------------------------------- |
+                  ## Test Results
+
+                  | Tests                | Result | Total     |
+                  |----------------------|--------------------------------------|------------------------------------|
+                  | Tests                | $`\textcolor{green}{\text{${results.numPassedTestSuites} Passed}}`$ | $`\textcolor{green}{\text{${results.numTotalTestSuites} Total}}`$     |
+                  | Tests                | $`\textcolor{green}{\text{${results.numPassedTests} Passed}}`$ | $`\textcolor{green}{\text{${results.numTotalTests} Total}}`$     |
+                  | Snapshots            | ${results.snapshot.total} total      |                                    |
+                  | Time                 | ${results.startTime}                  |                                    |
                 `,
             });
 
