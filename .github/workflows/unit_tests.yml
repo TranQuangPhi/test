@@ -42,7 +42,7 @@ jobs:
 
             const prNumber = number || context.payload.pull_request.number;
             
-            console.log('ccccc result : ', result)
+            console.log('ccccc results : ', results)
 
             const formattedResults = `
             Test Results:
