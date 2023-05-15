@@ -16,7 +16,7 @@ describe('TextInput component', () => {
   });
 
   it('renders correctly with default props', () => {
-    const {getByTestId} = render(<App />);
+    const {getByTestId} = render(<App isShow={true} />);
     const textInput = getByTestId('label');
     expect(textInput).toBeDefined();
   });
