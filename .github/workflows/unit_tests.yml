@@ -39,34 +39,21 @@ jobs:
             const fs = require('fs');
             const results = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
             const { number } = context.payload.pull_request;
-
-            const prNumber = number || context.payload.pull_request.number;
-
-            console.log('ccccc results : ', results)
-          
-
-            console.log('ccccc numPassedTestSuites : ', results.numPassedTestSuites)
-            console.log('ccccc numTotalTestSuites : ', results.numTotalTestSuites)
-            console.log('ccccc numPassedTests : ', results.numPassedTests)
-            console.log('ccccc numTotalTests : ', results.numTotalTests)
-            console.log('ccccc snapshot.total : ', results.snapshot.total)
-            console.log('ccccc startTime : ', results.startTime)
-
-            const tests = 
+            
 
             await github.rest.issues.createComment({
               owner,
               repo,
-              issue_number: prNumber,
+              issue_number: number,
               body: `
               ## Test Results
 
               | Tests                | Passed | Failed | Total     |
               |----------------------|--------------------------------------|--------------------------------------|------------------------------------|
-              | Files                |                                      |                                      | ${results.numTotalTestSuites} files|
-              | TestSuites           | ${results.numPassedTestSuites} Passed| ${results.numFailedTestSuites} Failed|${results.numTotalTestSuites} files |                               
-              | Tests                | ${results.numPassedTests} Passed     | ${results.numFailedTests} Failed     |${results.numTotalTests} files      |
-              | Snapshots            |                                      |                                      | ${results.snapshot.total} total    |
+              | Files                |                                      |                                      | ${results.numTotalTestSuites}      |
+              | TestSuites           | ${results.numPassedTestSuites}       | ${results.numFailedTestSuites}       | ${results.numTotalTestSuites}      |                               
+              | Tests                | ${results.numPassedTests}            | ${results.numFailedTests}            | ${results.numTotalTests}           |
+              | Snapshots            |                                      |                                      | ${results.snapshot.total}          |
               | Time                 |                                      |                                      | ${results.startTime}               |
                 `,
             });
