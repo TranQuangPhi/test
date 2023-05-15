@@ -51,7 +51,7 @@ jobs:
               | Tests                | Passed | Failed | Total     |
               |----------------------|--------------------------------------|--------------------------------------|------------------------------------|
               | Files                |                                      |                                      | ${results.numTotalTestSuites}      |
-              | TestSuites           | $${\color{red}Welcome}$$             | ${results.numFailedTestSuites}       | ${results.numTotalTestSuites}      |                               
+              | TestSuites           | <span style="color: green">${results.numPassedTestSuites} Passed</span>       | ${results.numFailedTestSuites}       | ${results.numTotalTestSuites}      |                               
               | Tests                | ${results.numPassedTests}            | ${results.numFailedTests}            | ${results.numTotalTests}           |
               | Snapshots            |                                      |                                      | ${results.snapshot.total}          |
               | Time                 |                                      |                                      | ${results.startTime}               |
