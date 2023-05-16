@@ -51,9 +51,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const {repo, owner} = context.repo
             const coveragePercent = '${{ steps.extract-coverage-data.outputs.coveragePercent }}';
 
-            const { owner, repo, number } = context.payload.pull_request;
+            const {number} = context.payload.pull_request;
 
             const commentBody = `
               ## Coverage Report
