@@ -1,4 +1,4 @@
-name: Jest
+name: Unit Tests
 on:
   pull_request:
   
@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: npm install
+        run: yarn install
       - name: Run Jest
         run: npm run test -- --coverage
       - name: Get coverage
@@ -26,60 +26,3 @@ jobs:
             * Statements: ${{ steps.get-coverage.outputs.coverage.statements }}%
             * Branches: ${{ steps.get-coverage.outputs.coverage.branches }}%
             * Functions: ${{ steps.get-coverage.outputs.coverage.functions }}%
-
-
-# name: Unit Tests
-
-# on: 
-#   pull_request:
-
-# jobs:
-#   unit-tests:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: '16'
-
-#       - name: Install dependencies
-#         run: yarn install
-
-#       - name: Run unit tests and capture results
-#         id: unit-test-results
-#         run: |
-#           yarn test --json --outputFile=test-results.json
-
-#       - name: Post test results
-#         uses: actions/github-script@v6
-#         if: ${{ github.event_name == 'pull_request' && github.event.pull_request }}
-#         with:
-#           github-token: ${{ secrets.GITHUB_TOKEN }}
-#           script: |
-#             const {repo, owner} = context.repo
-#             const fs = require('fs');
-#             const results = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
-#             const { number } = context.payload.pull_request;
-          
-#             await github.rest.issues.createComment({
-#               owner,
-#               repo,
-#               issue_number: number,
-#               body: `
-#               ## Test Results
-
-#               | Tests                | Passed | Failed | Total     |
-#               |----------------------|--------------------------------------|--------------------------------------|------------------------------------|
-#               | Files                |                                      |                                      | ${results.numTotalTestSuites}      |
-#               | TestSuites           | <img src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="10"/> ${results.numPassedTestSuites}| <img src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="10"/> ${results.numFailedTestSuites}| ${results.numTotalTestSuites}      |                               
-#               | Tests                | <img src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" height="10"/> ${results.numPassedTests}| <img src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png" height="10"/> ${results.numFailedTests} | ${results.numTotalTests}           |
-#               | Snapshots            |                                      |                                      | ${results.snapshot.total}          |
-#               | Time                 |                                      |                                      | ${results.startTime}               |
-#                 `,
-#             });
-
-           
