@@ -1,28 +1,60 @@
-name: Unit Tests
-on:
-  pull_request:
-  
+name: Code Coverage
+
+on: [pull_request]
+
 jobs:
-  build:
+  base_branch_cov:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: yarn install
-      - name: Run Jest
-        run: npm run test -- --coverage
-      - name: Get coverage
-        run: |
-          echo "::set-output name=coverage::$(npx jest --coverage)"
-      - name: Post coverage comment
-        uses: github-comment-action@v1
+      - uses: actions/checkout@v3
         with:
-          comment: |
-            **Code Coverage**
+          ref: ${{ github.base_ref }}
+      - name: Use Node.js v16.11.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.11.0
 
-            The code coverage for this pull request is:
+      - name: Install dependencies
+        run: yarn
 
-            * Lines: ${{ steps.get-coverage.outputs.coverage.lines }}%
-            * Statements: ${{ steps.get-coverage.outputs.coverage.statements }}%
-            * Branches: ${{ steps.get-coverage.outputs.coverage.branches }}%
-            * Functions: ${{ steps.get-coverage.outputs.coverage.functions }}%
+      - name: Run test coverage
+        run: yarn coverage
+
+      - name: Upload code coverage for ref branch
+        uses: actions/upload-artifact@v3
+        with:
+          name: ref-lcov.info
+          path: ./coverage/lcov.info
+
+  checks:
+    runs-on: ubuntu-latest
+    needs: base_branch_cov
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js v16.11.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.11.0
+
+      - name: Download code coverage report from base branch
+        uses: actions/download-artifact@v3
+        with:
+          name: ref-lcov.info
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Run test coverage
+        run: yarn coverage
+
+      #  Compares two code coverage files and generates report as a comment
+      - name: Generate Code Coverage report
+        id: code-coverage
+        uses: barecheck/code-coverage-action@v1
+        with:
+          barecheck-github-app-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: "./coverage/lcov.info"
+          base-lcov-file: "./lcov.info"
+          minimum-ratio: 0 # Fails Github action once code coverage is decreasing
+          send-summary-comment: true
+          show-annotations: "warning" # Possible options warning|error
