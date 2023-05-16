@@ -38,23 +38,34 @@ jobs:
           name: coverage-report
           path: coverage-report
 
-      - name: Display coverage report
-        uses: actions/github-script@v6
+      - name: Extract coverage data
+        run: |
+          coverageFile=./path/to/your/coverage-report.json
+          coverageData=$(cat "$coverageFile" | jq -r '.total')
+          coveragePercent=$(echo "$coverageData" | jq -r '.percentage')
+
+          echo "::set-output name=coveragePercent::$coveragePercent"
+
+      - name: Display coverage table in comment
+        uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fs = require('fs');
-            const coverageReport = fs.readFileSync('coverage-report/lcov-report/index.html', 'utf8');
+            const coveragePercent = '${{ steps.extract-coverage-data.outputs.coveragePercent }}';
 
             const { owner, repo, number } = context.payload.pull_request;
+
+            const commentBody = `
+              ## Coverage Report
+              
+              | Coverage |
+              |----------|
+              | ${coveragePercent}% |
+            `;
 
             await github.rest.issues.createComment({
               owner,
               repo,
               issue_number: number,
-              body: `
-              ## Coverage Report
-
-              ${coverageReport}
-              `,
+              body: commentBody,
             });
