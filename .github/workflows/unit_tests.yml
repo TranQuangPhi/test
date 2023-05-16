@@ -47,7 +47,7 @@ jobs:
           echo "::set-output name=coveragePercent::$coveragePercent"
 
       - name: Display coverage table in comment
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
