@@ -26,10 +26,10 @@ jobs:
       - name: Run tests with coverage
         run: yarn test --coverage
 
-      - name: Install jest-coverage-report-action
-        run: npm install jest-coverage-report-action
-
       - name: Generate and display coverage report
-        uses: joeattardi/jest-coverage-report-action@v2
+        uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          test-script: yarn jest
+          coverage-file: ./coverage/report.json
+          base-coverage-file: ./coverage/master/report.json
