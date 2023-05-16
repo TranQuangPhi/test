@@ -53,7 +53,7 @@ jobs:
           script: |
             const {repo, owner} = context.repo
             const coveragePercent = '${{ steps.extract-coverage-data.outputs.coveragePercent }}';
-
+            console.log('ccccc steps : ', steps)
             const {number} = context.payload.pull_request;
 
             const commentBody = `
