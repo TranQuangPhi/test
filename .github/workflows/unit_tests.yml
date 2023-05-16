@@ -21,7 +21,7 @@ jobs:
         run: yarn install
 
       - name: Run tests with coverage
-        run: yarn test --coverage
+        run: yarn test --coverage --outputFile=test-results.json
 
       - name: Post coverage report
         uses: actions/github-script@v3
@@ -32,7 +32,7 @@ jobs:
             const { owner, repo } = context.repo;
             const { number } = context.payload.pull_request;
 
-            const coveragePath = './coverage/coverage-summary.json';
+            const coveragePath = 'test-results.json';
             const coverageReport = require(coveragePath);
 
             const table = Object.entries(coverageReport.total).map(([key, value]) => {
