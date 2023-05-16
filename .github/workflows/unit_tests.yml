@@ -26,7 +26,35 @@ jobs:
       - name: Run tests with coverage
         run: yarn test --coverage
 
-      - name: Generate and display coverage report
-        uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Store coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/lcov-report
+
+      - name: Retrieve coverage report artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage-report
+
+      - name: Display coverage report
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const coverageReport = fs.readFileSync('coverage-report/lcov-report/index.html', 'utf8');
+
+            const { owner, repo, number } = context.payload.pull_request;
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: `
+              ## Coverage Report
+
+              ${coverageReport}
+              `,
+            });
