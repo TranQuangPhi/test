@@ -1,8 +1,7 @@
 name: Jest
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,11 +11,9 @@ jobs:
         run: npm install
       - name: Run Jest
         run: npm run test -- --coverage
-      - name: Publish coverage report
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage
-          path: coverage/
+      - name: Get coverage
+        run: |
+          echo "::set-output name=coverage::$(npx jest --coverage)"
       - name: Post coverage comment
         uses: github-comment-action@v1
         with:
@@ -25,14 +22,10 @@ jobs:
 
             The code coverage for this pull request is:
 
-            * Lines: 95%
-            * Statements: 95%
-            * Branches: 95%
-            * Functions: 95%
-
-            You can view the full code coverage report here:
-
-            https://github.com/<your-username>/<your-repository>/tree/gh-pages/coverage
+            * Lines: ${{ steps.get-coverage.outputs.coverage.lines }}%
+            * Statements: ${{ steps.get-coverage.outputs.coverage.statements }}%
+            * Branches: ${{ steps.get-coverage.outputs.coverage.branches }}%
+            * Functions: ${{ steps.get-coverage.outputs.coverage.functions }}%
 
 
 # name: Unit Tests
