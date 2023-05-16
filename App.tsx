@@ -53,7 +53,7 @@ function App({isShow}: Props): any {
   //     textLightColor: '#333333',
   //   },
   // });
-  console.log('ccccc 63');
+  console.log('ccccc 64');
 
   return (
     <View>{isShow && <Text testID="label">Label</Text>}</View>
