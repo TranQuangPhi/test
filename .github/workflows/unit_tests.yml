@@ -1,11 +1,14 @@
-name: Test and Coverage
+name: Unit Tests
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
-  test-and-coverage:
+  unit-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,34 +24,12 @@ jobs:
         run: yarn install
 
       - name: Run tests with coverage
-        run: yarn test --coverage --outputFile=test-results.json
+        run: yarn test --coverage
 
-      - name: Post coverage report
-        uses: actions/github-script@v3
-        if: github.event_name == 'pull_request'
+      - name: Install jest-coverage-report-action
+        run: npm install jest-coverage-report-action
+
+      - name: Generate and display coverage report
+        uses: joeattardi/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo;
-            const { number } = context.payload.pull_request;
-
-            const coveragePath = 'test-results.json';
-            const coverageReport = require(coveragePath);
-
-            const table = Object.entries(coverageReport.total).map(([key, value]) => {
-              const symbol = value.pct >= 80 ? '✅' : '❌';
-              return `| ${key} | ${symbol} ${value.pct.toFixed(2)}% |`;
-            }).join('\n');
-
-            await github.rest.issues.createComment({
-              owner,
-              repo,
-              issue_number: number,
-              body: `
-              ## Code Coverage Report
-
-              | Metric | Value |
-              | ------ | ----- |
-              ${table}
-              `,
-            });
