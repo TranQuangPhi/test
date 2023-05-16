@@ -56,7 +56,9 @@ function App({isShow}: Props): any {
   console.log('');
 
   return (
-    <View>{isShow && <Text testID="label">Label</Text>}</View>
+    <View>
+      <Text testID="label">Label</Text>
+    </View>
     // <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
     //   <Text>{RNConfig.APP_ENV}</Text>
     // </View>
