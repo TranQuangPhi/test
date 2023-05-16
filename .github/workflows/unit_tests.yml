@@ -1,60 +1,54 @@
-name: Code Coverage
+name: Test and Coverage
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
-  base_branch_cov:
+  test-and-coverage:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          ref: ${{ github.base_ref }}
-      - name: Use Node.js v16.11.0
-        uses: actions/setup-node@v3
-        with:
-          node-version: v16.11.0
+          node-version: '14'
 
       - name: Install dependencies
         run: yarn install
 
-      - name: Run test coverage
+      - name: Run tests with coverage
         run: yarn test --coverage
 
-      - name: Upload code coverage for ref branch
-        uses: actions/upload-artifact@v3
+      - name: Post coverage report
+        uses: actions/github-script@v3
+        if: github.event_name == 'pull_request'
         with:
-          name: ref-lcov.info
-          path: ./coverage/lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const { number } = context.payload.pull_request;
 
-  checks:
-    runs-on: ubuntu-latest
-    needs: base_branch_cov
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js v16.11.0
-        uses: actions/setup-node@v3
-        with:
-          node-version: v16.11.0
+            const coveragePath = './coverage/coverage-summary.json';
+            const coverageReport = require(coveragePath);
 
-      - name: Download code coverage report from base branch
-        uses: actions/download-artifact@v3
-        with:
-          name: ref-lcov.info
+            const table = Object.entries(coverageReport.total).map(([key, value]) => {
+              const symbol = value.pct >= 80 ? '✅' : '❌';
+              return `| ${key} | ${symbol} ${value.pct.toFixed(2)}% |`;
+            }).join('\n');
 
-      - name: Install dependencies
-        run: yarn install
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: `
+              ## Code Coverage Report
 
-      - name: Run test coverage
-        run: yarn test --coverage
-
-      #  Compares two code coverage files and generates report as a comment
-      - name: Generate Code Coverage report
-        id: code-coverage
-        uses: barecheck/code-coverage-action@v1
-        with:
-          barecheck-github-app-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: "./coverage/lcov.info"
-          base-lcov-file: "./lcov.info"
-          minimum-ratio: 0 # Fails Github action once code coverage is decreasing
-          send-summary-comment: true
-          show-annotations: "warning" # Possible options warning|error
+              | Metric | Value |
+              | ------ | ----- |
+              ${table}
+              `,
+            });
