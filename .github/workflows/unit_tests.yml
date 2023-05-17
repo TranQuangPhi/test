@@ -28,7 +28,6 @@ jobs:
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
           comment_prefix: "Test Result"
-          reporter: "Test Test Test Test"
 
       # - name: Jest Coverage Comment
       #   uses: raulanatol/jest-coverage-comment-action@main
