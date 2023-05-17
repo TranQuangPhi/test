@@ -46,27 +46,7 @@ jobs:
 
           echo "::set-output name=coveragePercent::$coveragePercent"
 
-      - name: Display coverage table in comment
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const {repo, owner} = context.repo
-            const coveragePercent = '${{ steps.extract-coverage-data.outputs.coveragePercent }}';
-            console.log('ccccc steps : ', steps)
-            const {number} = context.payload.pull_request;
-
-            const commentBody = `
-              ## Coverage Report
-              
-              | Coverage |
-              |----------|
-              | ${coveragePercent}% |
-            `;
-
-            await github.rest.issues.createComment({
-              owner,
-              repo,
-              issue_number: number,
-              body: commentBody,
-            });
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
