@@ -23,12 +23,13 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run tests with coverage
-        run: yarn test --coverage --coverageReporters json-summary
-
-      - name: Jest Coverage Comment
-        uses: raulanatol/jest-coverage-comment-action@main
+      - name: Comment with Test Coverage
+        uses: dkershner6/jest-coverage-commenter-action@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: '%'
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+
+      # - name: Jest Coverage Comment
+      #   uses: raulanatol/jest-coverage-comment-action@main
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
 
