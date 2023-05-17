@@ -30,4 +30,5 @@ jobs:
         uses: raulanatol/jest-coverage-comment-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: '%'
 
