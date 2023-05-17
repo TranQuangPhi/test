@@ -24,10 +24,16 @@ jobs:
         run: yarn install
 
       - name: Comment with Test Coverage
-        uses: dkershner6/jest-coverage-commenter-action@v1
-        with:
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
-          comment_prefix: "Test Result"
+        uses: danhunsaker/clover-reporter-action@v0.2.17-clover
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            clover-file: ./coverage/clover.xml
+
+      # - name: Comment with Test Coverage
+      #   uses: dkershner6/jest-coverage-commenter-action@v1
+      #   with:
+      #     github_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     comment_prefix: "Test Result"
 
       # - name: Jest Coverage Comment
       #   uses: raulanatol/jest-coverage-comment-action@main
