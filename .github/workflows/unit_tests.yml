@@ -25,12 +25,6 @@ jobs:
 
       - name: Run tests with coverage
         run: yarn test --coverage --coverageReporters json-summary
-      
-      - name: Check the output coverage
-        run: |
-          echo "ccccc Coverage Percentage - ${{ steps.coverageComment.outputs.coverage }}"
-          echo "ccccc Coverage Color - ${{ steps.coverageComment.outputs.color }}"
-          echo "ccccc Summary HTML - ${{ steps.coverageComment.outputs.summaryHtml }}"
 
       - name: Jest Coverage Comment
         uses: MishaKav/jest-coverage-comment@main
@@ -43,3 +37,7 @@ jobs:
           hide-comment: false
           create-new-comment: false
           hide-summary: false
+          junitxml-title: My JUnit Title
+          junitxml-path: ./coverage/clover.xml
+          coverage-title: My Coverage Title
+          coverage-path: ./coverage/clover.xml
