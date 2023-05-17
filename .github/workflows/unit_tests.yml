@@ -24,29 +24,20 @@ jobs:
         run: yarn install
 
       - name: Run tests with coverage
-        run: yarn test --coverage
+        run: yarn test --coverage --coverageReporters json-summary
 
-      - name: Store coverage report
-        uses: actions/upload-artifact@v3
+      - name: Jest Coverage Comment
+        uses: MishaKav/jest-coverage-comment@main
         with:
-          name: coverage-report
-          path: coverage/lcov-report
-
-      - name: Retrieve coverage report artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage-report
-          path: coverage-report
-
-      - name: Extract coverage data
-        run: |
-          coverageFile=./path/to/your/coverage-report.json
-          coverageData=$(cat "$coverageFile" | jq -r '.total')
-          coveragePercent=$(echo "$coverageData" | jq -r '.percentage')
-
-          echo "::set-output name=coveragePercent::$coveragePercent"
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          coverage-summary-path: ./coverage/coverage-summary.json
+          title: My Jest Coverage Comment
+          summary-title: My Summary Title
+          badge-title: Coverage
+          hide-comment: false
+          create-new-comment: false
+          hide-summary: false
+          junitxml-title: My JUnit Title
+          junitxml-path: ./coverage/junit.xml
+          coverage-title: My Coverage Title
+          coverage-path: ./coverage.txt
