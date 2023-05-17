@@ -27,17 +27,7 @@ jobs:
         run: yarn test --coverage --coverageReporters json-summary
 
       - name: Jest Coverage Comment
-        uses: MishaKav/jest-coverage-comment@main
+        uses: raulanatol/jest-coverage-comment-action@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-summary-path: ./coverage/coverage-summary.json
-          title: My Jest Coverage Comment
-          summary-title: My Summary Title
-          badge-title: Coverage
-          hide-comment: false
-          create-new-comment: false
-          hide-summary: false
-          junitxml-title: My JUnit Title
-          junitxml-path: ./coverage/clover.xml
-          coverage-title: My Coverage Title
-          coverage-path: ./coverage/clover.xml
+
