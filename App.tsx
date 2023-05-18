@@ -53,7 +53,7 @@ function App({isShow}: Props): any {
   //     textLightColor: '#333333',
   //   },
   // });
-  console.log('');
+  console.log('ccccc 95');
 
   return (
     <View>
