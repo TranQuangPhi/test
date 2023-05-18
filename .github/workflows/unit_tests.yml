@@ -22,15 +22,12 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
-
-      - name: Run tests with coverage
-        run: yarn test --coverage
       
-      - name: Comment with Test Coverage
-        uses: romeovs/lcov-reporter-action@v0.2.16
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ./coverage/lcov.info
+      # - name: Comment with Test Coverage
+      #   uses: romeovs/lcov-reporter-action@v0.2.16
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     lcov-file: ./coverage/lcov.info
 
       # - name: Comment with Test Coverage
       #   uses: danhunsaker/clover-reporter-action@v0.2.17-clover
@@ -38,11 +35,11 @@ jobs:
       #     github-token: ${{ secrets.GITHUB_TOKEN }}
       #     clover-file: ./coverage/clover.xml
 
-      # - name: Comment with Test Coverage
-      #   uses: dkershner6/jest-coverage-commenter-action@v1
-      #   with:
-      #     github_token: "${{ secrets.GITHUB_TOKEN }}"
-      #     comment_prefix: "Test Result"
+      - name: Comment with Test Coverage
+        uses: dkershner6/jest-coverage-commenter-action@v1
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          comment_prefix: "## Test Result"
 
       # - name: Jest Coverage Comment
       #   uses: raulanatol/jest-coverage-comment-action@main
